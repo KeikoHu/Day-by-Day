@@ -25,7 +25,6 @@ const db = getFirestore(app);
 // -----------------------------
 const LS_KEY = "daybyday_final_v2";
 let state = { habits: [], completions: {} };
-if(localStorage.getItem(LS_KEY)) state = JSON.parse(localStorage.getItem(LS_KEY));
 
 let weekOffset = 0;
 let query = "";
