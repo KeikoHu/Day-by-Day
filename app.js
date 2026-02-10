@@ -20,6 +20,22 @@ const auth = getAuth();
 const provider = new GoogleAuthProvider();
 const db = getFirestore(app);
 
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
+
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    userId = user.uid;           // restore the user
+    loginBtn.style.display = "none"; // hide login button
+    const docRef = doc(db, "users", userId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) state = docSnap.data();
+    render();
+  } else {
+    userId = null;
+    loginBtn.style.display = "inline-block"; // show login button if not logged in
+  }
+});
+
 // -----------------------------
 // State
 // -----------------------------
@@ -261,17 +277,18 @@ tabs.forEach(t=>{
 
 // -----------------------------
 // Firebase login
-loginBtn.onclick=async()=>{
-  try{
-    const result=await signInWithPopup(auth,provider);
-    userId=result.user.uid;
-    loginBtn.style.display="none"; // hide after login
-    const docRef=doc(db,"users",userId);
-    const docSnap=await getDoc(docRef);
-    if(docSnap.exists()) state=docSnap.data();
+loginBtn.onclick = async () => {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    userId = result.user.uid;
+    loginBtn.style.display = "none";
+    const docRef = doc(db, "users", userId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) state = docSnap.data();
     render();
-  }catch(e){console.error(e);}
+  } catch (e) { console.error(e); }
 };
+
 
 // -----------------------------
 render();
