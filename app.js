@@ -339,5 +339,73 @@ tabs.forEach(t=>{
   };
 });
 
+// ----------- MOBILE CARDS -----------
+const habitCardsContainer = document.querySelector(".habit-cards");
+habitCardsContainer.innerHTML = "";
+const isMobile = window.innerWidth <= 768;
+if(isMobile) {
+  const habits = query ? state.habits.filter(h=>h.name.toLowerCase().includes(query)) : state.habits;
+
+  habits.forEach(h=>{
+    const card = document.createElement("div");
+    card.className = "habit-card";
+
+    // Header: name + delete
+    const header = document.createElement("div");
+    header.className = "habit-card-header";
+    const nameDiv = document.createElement("div");
+    nameDiv.className = "habit-card-name";
+    nameDiv.textContent = `${h.emoji} ${h.name}`;
+    header.appendChild(nameDiv);
+
+    const delBtn = document.createElement("button");
+    delBtn.className = "btn danger";
+    delBtn.textContent = "🗑";
+    delBtn.onclick = ()=>{
+      if(confirm(`Delete habit "${h.name}"?`)){
+        state.habits = state.habits.filter(x=>x.id!==h.id);
+        delete state.completions[h.id];
+        save(); render();
+      }
+    };
+    header.appendChild(delBtn);
+    card.appendChild(header);
+
+    // Day buttons
+    const dayDiv = document.createElement("div");
+    dayDiv.className = "habit-card-days";
+    getWeekKeys().forEach(k=>{
+      const btn = document.createElement("button");
+      btn.className="cell-btn";
+      if(isChecked(h.id,k)){ btn.classList.add("checked"); btn.textContent="✓"; }
+      btn.onclick = ()=>toggleCell(h.id,k);
+      btn.title = k; // optional tooltip for day
+      dayDiv.appendChild(btn);
+    });
+    card.appendChild(dayDiv);
+
+    // Footer: difficulty + streak
+    const footer = document.createElement("div");
+    footer.className = "habit-card-footer";
+
+    ["easy","medium","hard"].forEach(level=>{
+      const btn = document.createElement("button");
+      btn.textContent = level;
+      btn.className = "btn " + (h.difficulty===level?"primary":"");
+      btn.onclick = ()=>{ h.difficulty=level; save(); render(); };
+      footer.appendChild(btn);
+    });
+
+    const streakSpan = document.createElement("span");
+    streakSpan.className = "habit-streak";
+    streakSpan.textContent = "Streak: "+calcStreak(h.id);
+    footer.appendChild(streakSpan);
+
+    card.appendChild(footer);
+
+    habitCardsContainer.appendChild(card);
+  });
+}
+
 // -----------------------------
 render();
