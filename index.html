@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day by Day</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Top Navbar -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">🏆</div>
+      <div>
+        <div class="subtitle">POV: you turned your life into a game</div>
+        <div class="title">Day by Day</div>
+      </div>
+    </div>
+
+    <nav class="nav-tabs">
+      <button class="tab-btn active" data-page="habits">Habits</button>
+      <button class="tab-btn" data-page="progress">Progress</button>
+      <button class="tab-btn" data-page="analysis">Analysis</button>
+    </nav>
+
+    <div class="top-actions">
+      <div class="search">
+        <span class="icon">🔎</span>
+        <input id="searchInput" type="text" placeholder="Search habits..." />
+      </div>
+      <button id="addHabitBtn" class="btn primary">+ Add</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Habits Page -->
+    <section id="habits" class="page card-page">
+      <div class="card-header">
+        <h2>My Habits</h2>
+        <div id="weekLabel" class="muted"></div>
+        <div class="week-actions">
+          <button id="prevWeekBtn" class="btn">Prev</button>
+          <button id="thisWeekBtn" class="btn">This week</button>
+          <button id="nextWeekBtn" class="btn">Next</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table id="habitTable"></table>
+      </div>
+
+      <div class="bottom-row">
+        <div class="muted tip">Tip: Call me.</div>
+        <button id="resetWeekBtn" class="btn danger">Reset week</button>
+      </div>
+    </section>
+
+    <!-- Progress Page -->
+    <section id="progress" class="page card-page hidden">
+      <section class="card">
+        <div class="card-header"><h2>Progress</h2></div>
+
+        <div class="progress-block">
+          <div class="row">
+            <div class="muted">Weekly completion</div>
+            <div id="weeklyPct" class="big"></div>
+          </div>
+
+          <div class="progressbar">
+            <div id="progressFill" class="fill"></div>
+          </div>
+
+          <div id="doneCount" class="muted small"></div>
+        </div>
+
+        <div class="xp-card">
+          <div class="row">
+            <div>
+              <div class="muted">XP</div>
+              <div id="xpValue" class="xl"></div>
+            </div>
+            <div id="levelBadge" class="badge">Level 1</div>
+          </div>
+
+          <div class="muted small row">
+            <span>Next level</span>
+            <span id="nextLevel"></span>
+          </div>
+
+          <div class="progressbar thin">
+            <div id="levelFill" class="fill"></div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- Analysis Page -->
+    <section id="analysis" class="page card-page hidden">
+      <section class="card">
+        <div class="card-header"><h2>Current Week</h2></div>
+        <canvas id="lineChart" height="140"></canvas>
+        <canvas id="barChart" height="180"></canvas>
+      </section>
+
+      <section class="card">
+        <div class="card-header"><h2>Historical Performance (last 6 weeks)</h2></div>
+        <canvas id="histLineChart" height="140"></canvas>
+        <canvas id="histBarChart" height="180"></canvas>
+      </section>
+    </section>
+  </main>
+
+  <footer class="footer muted">
+    Keiko is working on this project rn!
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+  <script src="app.js"></script>
+</body>
+</html>

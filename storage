@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day by Day</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Top Navbar -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">🏆</div>
+      <div>
+        <div class="subtitle">POV: you turned your life into a game</div>
+        <div class="title">Day by Day</div>
+      </div>
+    </div>
+
+    <nav class="nav-tabs">
+      <button class="tab-btn active" data-page="habits">Habits</button>
+      <button class="tab-btn" data-page="progress">Progress</button>
+      <button class="tab-btn" data-page="analysis">Analysis</button>
+    </nav>
+
+    <div class="top-actions">
+      <div class="search">
+        <span class="icon">🔎</span>
+        <input id="searchInput" type="text" placeholder="Search habits..." />
+      </div>
+      <button id="addHabitBtn" class="btn primary">+ Add</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Habits Page -->
+    <section id="habits" class="page card-page">
+      <div class="card-header">
+        <h2>My Habits</h2>
+        <div id="weekLabel" class="muted"></div>
+        <div class="week-actions">
+          <button id="prevWeekBtn" class="btn">Prev</button>
+          <button id="thisWeekBtn" class="btn">This week</button>
+          <button id="nextWeekBtn" class="btn">Next</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table id="habitTable"></table>
+      </div>
+
+      <div class="bottom-row">
+        <div class="muted tip">Tip: Use ← / → to change weeks.</div>
+        <button id="resetWeekBtn" class="btn danger">Reset week</button>
+      </div>
+    </section>
+
+    <!-- Progress Page -->
+    <section id="progress" class="page card-page hidden">
+      <section class="card">
+        <div class="card-header"><h2>Progress</h2></div>
+
+        <div class="progress-block">
+          <div class="row">
+            <div class="muted">Weekly completion</div>
+            <div id="weeklyPct" class="big"></div>
+          </div>
+
+          <div class="progressbar">
+            <div id="progressFill" class="fill"></div>
+          </div>
+
+          <div id="doneCount" class="muted small"></div>
+        </div>
+
+        <div class="xp-card">
+          <div class="row">
+            <div>
+              <div class="muted">XP</div>
+              <div id="xpValue" class="xl"></div>
+            </div>
+            <div id="levelBadge" class="badge">Level 1</div>
+          </div>
+
+          <div class="muted small row">
+            <span>Next level</span>
+            <span id="nextLevel"></span>
+          </div>
+
+          <div class="progressbar thin">
+            <div id="levelFill" class="fill"></div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- Analysis Page -->
+    <section id="analysis" class="page card-page hidden">
+      <section class="card">
+        <div class="card-header"><h2>Current Week</h2></div>
+        <canvas id="lineChart" height="140"></canvas>
+        <canvas id="barChart" height="180"></canvas>
+      </section>
+
+      <section class="card">
+        <div class="card-header"><h2>Historical Performance (last 6 weeks)</h2></div>
+        <canvas id="histLineChart" height="140"></canvas>
+        <canvas id="histBarChart" height="180"></canvas>
+      </section>
+    </section>
+  </main>
+
+  <footer class="footer muted">
+    Keiko is working on this project rn!
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+  <script src="app.js"></script>
+</body>
+</html>
+:root{
+  --bg:#09090b;
+  --card:#0b0b10;
+  --card2:#111118;
+  --border:#27272a;
+  --text:#fafafa;
+  --muted:#a1a1aa;
+  --muted2:#71717a;
+  --green:#22c55e;
+  --green2:rgba(34,197,94,.2);
+  --danger:#ef4444;
+}
+
+/* Basic reset */
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background:var(--bg);
+  color:var(--text);
+}
+
+/* Topbar + Nav */
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:50;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  padding:14px 18px;
+  border-bottom:1px solid var(--border);
+  background:rgba(9,9,11,.85);
+  backdrop-filter: blur(10px);
+}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:42px;height:42px;display:grid;place-items:center;border-radius:18px;background:var(--card2);border:1px solid var(--border);font-size:20px}
+.subtitle{font-size:12px;color:var(--muted)}
+.title{font-size:18px;font-weight:700;letter-spacing:-.2px}
+.top-actions{display:flex;align-items:center;gap:10px}
+.search{position:relative;display:flex;align-items:center;background:var(--card2);border:1px solid var(--border);border-radius:18px;padding:10px 12px;gap:8px}
+.search input{width:240px;border:none;outline:none;background:transparent;color:var(--text);font-size:14px}
+.search .icon{opacity:.7}
+
+/* Nav Tabs */
+.nav-tabs{display:flex;gap:6px}
+.tab-btn{padding:8px 14px;border-radius:16px;border:none;background:var(--card2);color:var(--text);cursor:pointer;font-weight:600}
+.tab-btn.active{background:var(--green2);border:1px solid rgba(34,197,94,.35)}
+
+/* Layout */
+.container{max-width:1200px;margin:0 auto;padding:18px;display:grid;gap:16px;grid-template-columns:1fr}
+.page.hidden{display:none}
+
+/* Card */
+.card{background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));border:1px solid var(--border);border-radius:26px;padding:16px;box-shadow: 0 10px 40px rgba(0,0,0,.35);}
+.card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:14px}
+.card-header h2{margin:0;font-size:20px}
+
+/* Table */
+.table-wrap{overflow:auto;border-radius:18px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;min-width:820px}
+th, td{border-bottom:1px solid rgba(255,255,255,.04);padding:10px;text-align:center}
+thead th{background:rgba(255,255,255,.04);font-size:13px;position:sticky;top:0;z-index:2}
+th.habit-col, td.habit-col{text-align:left;position:sticky;left:0;z-index:3;background:rgba(9,9,11,.95);border-right:1px solid var(--border);min-width:320px}
+.habit-name{font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:290px}
+.today{background:rgba(34,197,94,.08)}
+.cell-btn{width:28px;height:28px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:transparent;color:var(--text);cursor:pointer;font-weight:900}
+.cell-btn:hover{background:rgba(255,255,255,.06)}
+.cell-btn.checked{background:rgba(34,197,94,.18);border-color: rgba(34,197,94,.65)}
+.bottom-row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:14px}
+
+/* Buttons */
+.btn{border:none;cursor:pointer;padding:10px 14px;border-radius:18px;background:var(--card2);color:var(--text);border:1px solid var(--border);font-weight:600}
+.btn:hover{filter:brightness(1.1)}
+.btn.primary{background:var(--green2);border:1px solid rgba(34,197,94,.35)}
+.btn.danger{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35)}
+
+/* Progress + XP */
+.progress-block{margin-top:6px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.progressbar{margin-top:10px;height:12px;border-radius:999px;background:rgba(255,255,255,.05);overflow:hidden;border:1px solid rgba(255,255,255,.06)}
+.progressbar.thin{height:9px}
+.fill{height:100%;width:0%;background:rgba(34,197,94,.65);border-radius:999px;transition:width .25s ease}
+.xp-card{margin-top:14px;padding:14px;border-radius:20px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03)}
+.badge{padding:8px 12px;border-radius:16px;font-weight:700;background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.25);color:#bbf7d0}
+
+/* Charts */
+.chart-block{margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.06)}
+canvas{width:100%;border-radius:18px;margin-top:10px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06)}
+
+.footer{max-width:1200px;margin:0 auto;padding:0 18px 22px;font-size:12px;opacity:.85}
+// =============================
+// Day by Day – Final JS
+// =============================
+
+const DAYS = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+const LS_KEY = "daybyday_final";
+
+// -----------------------------
+// State
+// -----------------------------
+let state = {
+  habits: [],
+  completions: {}
+};
+
+if (localStorage.getItem(LS_KEY)) {
+  state = JSON.parse(localStorage.getItem(LS_KEY));
+}
+
+let weekOffset = 0;
+let query = "";
+
+// -----------------------------
+// Elements
+// -----------------------------
+const habitTable = document.getElementById("habitTable");
+const weekLabel = document.getElementById("weekLabel");
+const weeklyPct = document.getElementById("weeklyPct");
+const progressFill = document.getElementById("progressFill");
+const doneCount = document.getElementById("doneCount");
+const xpValue = document.getElementById("xpValue");
+const levelBadge = document.getElementById("levelBadge");
+const nextLevel = document.getElementById("nextLevel");
+const levelFill = document.getElementById("levelFill");
+const searchInput = document.getElementById("searchInput");
+const prevWeekBtn = document.getElementById("prevWeekBtn");
+const nextWeekBtn = document.getElementById("nextWeekBtn");
+const thisWeekBtn = document.getElementById("thisWeekBtn");
+const addHabitBtn = document.getElementById("addHabitBtn");
+const resetWeekBtn = document.getElementById("resetWeekBtn");
+const lineCanvas = document.getElementById("lineChart");
+const barCanvas = document.getElementById("barChart");
+const histLineCanvas = document.getElementById("histLineChart");
+const histBarCanvas = document.getElementById("histBarChart");
+const tabs = document.querySelectorAll(".tab-btn");
+const pages = document.querySelectorAll(".page");
+
+// -----------------------------
+// Utils
+// -----------------------------
+const save = () =>
+  localStorage.setItem(LS_KEY, JSON.stringify(state));
+
+const startOfWeek = (d=new Date()) => {
+  d = new Date(d);
+  const day = d.getDay();
+  const diff = (day === 0 ? -6 : 1) - day;
+  d.setDate(d.getDate() + diff);
+  d.setHours(0,0,0,0);
+  return d;
+};
+
+const addDays = (d,n) => {
+  const x = new Date(d);
+  x.setDate(x.getDate() + n);
+  return x;
+};
+
+const fmtKey = d =>
+  `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+
+const getWeekStart = () =>
+  addDays(startOfWeek(), weekOffset * 7);
+
+const getWeekKeys = () =>
+  Array.from({length:7}, (_,i)=>fmtKey(addDays(getWeekStart(),i)));
+
+const clamp = (n,a,b) => Math.max(a,Math.min(b,n));
+
+const difficultyMult = d =>
+  d === "hard" ? 2 : d === "medium" ? 1.5 : 1;
+
+// -----------------------------
+// Core logic
+// -----------------------------
+const isChecked = (hid,key) =>
+  !!state.completions[hid]?.[key];
+
+const toggleCell = (hid,key) => {
+  if (!state.completions[hid]) state.completions[hid] = {};
+  state.completions[hid][key] = !state.completions[hid][key];
+  save();
+  render();
+};
+
+const calcStreak = hid => {
+  let s = 0;
+  for (let i=0;i<30;i++) {
+    const k = fmtKey(addDays(new Date(), -i));
+    if (isChecked(hid,k)) s++;
+    else break;
+  }
+  return s;
+};
+
+// -----------------------------
+// Render
+// -----------------------------
+function render() {
+  const weekKeys = getWeekKeys();
+  const todayKey = fmtKey(new Date());
+
+  weekLabel.textContent =
+    `${getWeekStart().toLocaleDateString()} – ${addDays(getWeekStart(),6).toLocaleDateString()}`;
+
+  // ---------- TABLE ----------
+  habitTable.innerHTML = "";
+  const thead = document.createElement("thead");
+  const trh = document.createElement("tr");
+
+  ["Habit", ...DAYS, "Streak"].forEach((t,i)=>{
+    const th = document.createElement("th");
+    th.textContent = t;
+    if (i === 0) th.className = "habit-col";
+    trh.appendChild(th);
+  });
+
+  thead.appendChild(trh);
+  habitTable.appendChild(thead);
+
+  const tbody = document.createElement("tbody");
+
+  const habits = query
+    ? state.habits.filter(h=>h.name.toLowerCase().includes(query))
+    : state.habits;
+
+  habits.forEach(h=>{
+    const tr = document.createElement("tr");
+
+    const tdH = document.createElement("td");
+    tdH.className = "habit-col";
+    tdH.textContent = `${h.emoji} ${h.name} (${h.difficulty})`;
+    tr.appendChild(tdH);
+
+    weekKeys.forEach(k=>{
+      const td = document.createElement("td");
+      const btn = document.createElement("button");
+      btn.className = "cell-btn";
+      if (isChecked(h.id,k)) {
+        btn.classList.add("checked");
+        btn.textContent = "✓";
+      }
+      btn.onclick = () => toggleCell(h.id,k);
+      td.appendChild(btn);
+      tr.appendChild(td);
+    });
+
+    const tdS = document.createElement("td");
+    tdS.textContent = calcStreak(h.id);
+    tdS.style.fontWeight = "800";
+    tr.appendChild(tdS);
+
+    tbody.appendChild(tr);
+  });
+
+  habitTable.appendChild(tbody);
+
+  // ---------- PROGRESS ----------
+  const total = state.habits.length * 7;
+  let done = 0;
+  let xp = 0;
+
+  state.habits.forEach(h=>{
+    weekKeys.forEach(k=>{
+      if (isChecked(h.id,k)) {
+        done++;
+        xp += 10 * difficultyMult(h.difficulty);
+      }
+    });
+
+    const streak = calcStreak(h.id);
+    if (streak >= 7) xp += 100;
+    else if (streak >= 5) xp += 50;
+    else if (streak >= 3) xp += 20;
+  });
+
+  const pct = total ? done / total * 100 : 0;
+  progressFill.style.width = `${pct}%`;
+
+  let status = "Needs focus ⚠";
+  if (pct >= 80) status = "On Fire 🔥";
+  else if (pct >= 50) status = "Stable 🙂";
+
+  weeklyPct.textContent = `${pct.toFixed(1)}% — ${status}`;
+  doneCount.textContent = `Done ${done} / ${total}`;
+
+  animateNumber(xpValue, Math.round(xp));
+
+  const level = Math.floor(xp / 250) + 1;
+  levelBadge.textContent = `Level ${level}`;
+  nextLevel.textContent = `${xp} / ${level * 250}`;
+  levelFill.style.width = `${clamp(xp/(level*250)*100,0,100)}%`;
+
+  renderCharts();
+}
+
+// -----------------------------
+// Charts (Clean + Meaningful)
+// -----------------------------
+let lineChart, barChart, histLine, histBar;
+
+function renderCharts() {
+  const weekKeys = getWeekKeys();
+
+  // Daily consistency %
+  const dailyPct = weekKeys.map(k=>{
+    if (!state.habits.length) return 0;
+    const d = state.habits.filter(h=>isChecked(h.id,k)).length;
+    return Math.round(d / state.habits.length * 100);
+  });
+
+  lineChart?.destroy();
+  lineChart = new Chart(lineCanvas,{
+    type:"line",
+    data:{
+      labels:DAYS,
+      datasets:[{
+        data:dailyPct,
+        label:"Daily Consistency (%)",
+        fill:true
+      }]
+    },
+    options:{
+      scales:{y:{min:0,max:100}},
+      plugins:{legend:{display:false}}
+    }
+  });
+
+  // Habit success %
+  const habitStats = state.habits.map(h=>{
+    const d = weekKeys.filter(k=>isChecked(h.id,k)).length;
+    return {name:h.name,pct:Math.round(d/7*100)};
+  }).sort((a,b)=>a.pct-b.pct);
+
+  barChart?.destroy();
+  barChart = new Chart(barCanvas,{
+    type:"bar",
+    data:{
+      labels:habitStats.map(h=>h.name),
+      datasets:[{
+        data:habitStats.map(h=>h.pct),
+        label:"Habit Success (%)"
+      }]
+    },
+    options:{
+      scales:{y:{min:0,max:100}},
+      plugins:{legend:{display:false}}
+    }
+  });
+
+  // Historical (6 weeks)
+  const histLabels = [];
+  const histData = [];
+
+  for (let w=-5;w<=0;w++){
+    const ws = addDays(getWeekStart(), w*7);
+    const keys = Array.from({length:7},(_,i)=>fmtKey(addDays(ws,i)));
+    const possible = state.habits.length * 7;
+    const done = state.habits.reduce(
+      (a,h)=>a+keys.filter(k=>isChecked(h.id,k)).length,0
+    );
+    histLabels.push(ws.toLocaleDateString(undefined,{month:"short",day:"numeric"}));
+    histData.push(possible ? Math.round(done/possible*100) : 0);
+  }
+
+  histLine?.destroy();
+  histLine = new Chart(histLineCanvas,{
+    type:"line",
+    data:{labels:histLabels,datasets:[{data:histData,fill:true}]},
+    options:{scales:{y:{min:0,max:100}},plugins:{legend:{display:false}}}
+  });
+
+  histBar?.destroy();
+  histBar = new Chart(histBarCanvas,{
+    type:"bar",
+    data:{labels:histLabels,datasets:[{data:histData}]},
+    options:{scales:{y:{min:0,max:100}},plugins:{legend:{display:false}}}
+  });
+}
+
+// -----------------------------
+// Animation
+// -----------------------------
+function animateNumber(el,target){
+  const start = Number(el.textContent)||0;
+  const diff = target-start;
+  let f=0;
+  const frames=20;
+  const tick=()=>{
+    f++;
+    el.textContent=Math.round(start+diff*(f/frames));
+    if(f<frames) requestAnimationFrame(tick);
+  };
+  tick();
+}
+
+// -----------------------------
+// Events
+// -----------------------------
+searchInput.oninput = e => {query=e.target.value.toLowerCase();render();};
+prevWeekBtn.onclick = ()=>{weekOffset--;render();};
+nextWeekBtn.onclick = ()=>{weekOffset++;render();};
+thisWeekBtn.onclick = ()=>{weekOffset=0;render();};
+
+addHabitBtn.onclick = ()=>{
+  const name = prompt("Habit name?");
+  if (!name) return;
+  const emoji = prompt("Emoji?","🔥");
+  const difficulty = prompt("Difficulty: easy / medium / hard","easy");
+  state.habits.push({
+    id:Date.now().toString(),
+    name,
+    emoji,
+    difficulty
+  });
+  save();
+  render();
+};
+
+resetWeekBtn.onclick = ()=>{
+  if (!confirm("Reset this week?")) return;
+  getWeekKeys().forEach(k=>{
+    state.habits.forEach(h=>{
+      state.completions[h.id]?.[k] && delete state.completions[h.id][k];
+    });
+  });
+  save();
+  render();
+};
+
+tabs.forEach(t=>{
+  t.onclick=()=>{
+    tabs.forEach(x=>x.classList.remove("active"));
+    pages.forEach(p=>p.classList.add("hidden"));
+    t.classList.add("active");
+    document.getElementById(t.dataset.page).classList.remove("hidden");
+    renderCharts();
+  };
+});
+
+// -----------------------------
+render();
