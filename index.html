@@ -2,12 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Day by Day</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="./Screenshot 2026-02-10 184914.png" type="image/x-icon">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+
   <!-- Top Navbar -->
   <header class="topbar">
     <div class="brand">
@@ -30,6 +32,7 @@
         <input id="searchInput" type="text" placeholder="Search habits..." />
       </div>
       <button id="addHabitBtn" class="btn primary">+ Add</button>
+      <button id="loginBtn" class="btn primary">Login with Google</button>
     </div>
   </header>
 
@@ -47,7 +50,6 @@
       </div>
 
       <div class="table-wrap">
-        
         <table id="habitTable"></table>
       </div>
 
@@ -61,20 +63,16 @@
     <section id="progress" class="page card-page hidden">
       <section class="card">
         <div class="card-header"><h2>Progress</h2></div>
-
         <div class="progress-block">
           <div class="row">
             <div class="muted">Weekly completion</div>
             <div id="weeklyPct" class="big"></div>
           </div>
-
           <div class="progressbar">
             <div id="progressFill" class="fill"></div>
           </div>
-
           <div id="doneCount" class="muted small"></div>
         </div>
-
         <div class="xp-card">
           <div class="row">
             <div>
@@ -83,12 +81,10 @@
             </div>
             <div id="levelBadge" class="badge">Level 1</div>
           </div>
-
           <div class="muted small row">
             <span>Next level</span>
             <span id="nextLevel"></span>
           </div>
-
           <div class="progressbar thin">
             <div id="levelFill" class="fill"></div>
           </div>
@@ -103,7 +99,6 @@
         <canvas id="lineChart" height="140"></canvas>
         <canvas id="barChart" height="180"></canvas>
       </section>
-
       <section class="card">
         <div class="card-header"><h2>Historical Performance (last 6 weeks)</h2></div>
         <canvas id="histLineChart" height="140"></canvas>
@@ -116,72 +111,7 @@
     Keiko is working on this project rn!
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
-  <script src="app.js"></script>
-  <!-- Firebase SDK -->
-<script type="module">
-  // Import Firebase modules
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
-  import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
-  import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
-
-  // 1️⃣ Initialize Firebase
-  const firebaseConfig = {
-  apiKey: "AIzaSyDyxjT_PYLASXQ6VJ9o1Y4zbk2uTv_1ayE",
-  authDomain: "daybydayapp-62d9c.firebaseapp.com",
-  projectId: "daybydayapp-62d9c",
-  storageBucket: "daybydayapp-62d9c.firebasestorage.app",
-  messagingSenderId: "958797076735",
-  appId: "1:958797076735:web:48a61f7a355195de5514ca"
-};
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth();
-  const provider = new GoogleAuthProvider();
-  const db = getFirestore(app);
-
-  // 2️⃣ Login button (you can add one to your HTML)
-  const loginBtn = document.createElement("button");
-  loginBtn.textContent = "Login with Google";
-  loginBtn.className = "btn primary";
-  document.body.prepend(loginBtn);
-
-  let userId = null;
-
-  loginBtn.onclick = async () => {
-    try {
-      const result = await signInWithPopup(auth, provider);
-      userId = result.user.uid;
-      console.log("Logged in as:", result.user.displayName);
-
-      // Load data from Firestore
-      const docRef = doc(db, "users", userId);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        state = docSnap.data(); // load your habits + completions
-        render();
-      } else {
-        console.log("No data found, starting fresh.");
-      }
-
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  // 3️⃣ Save data automatically when state changes
-  const saveToFirebase = async () => {
-    if (!userId) return;
-    await setDoc(doc(db, "users", userId), state);
-  };
-
-  // Override your existing save() function
-  const oldSave = save;
-  save = () => {
-    oldSave();         // save to localStorage
-    saveToFirebase();  // save to Firebase
-  };
-</script>
-
+  <!-- Firebase + App -->
+  <script type="module" src="app.js"></script>
 </body>
 </html>
