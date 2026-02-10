@@ -91,62 +91,71 @@ canvas{width:100%;border-radius:18px;margin-top:10px;background:rgba(255,255,255
 
 .footer{max-width:1200px;margin:0 auto;padding:0 18px 22px;font-size:12px;opacity:.85}
 /* ----------------- Mobile Responsive ----------------- */
-/* -------- Mobile Card Layout for Habits -------- */
 @media (max-width: 768px) {
-  #habitTable { display: none; } /* hide old table on mobile */
-
-  .habit-cards { display: flex; flex-direction: column; gap: 12px; }
-
-  .habit-card {
-    background: var(--card2);
-    border: 1px solid var(--border);
-    border-radius: 18px;
+  .container {
     padding: 12px;
-    display: flex;
+  }
+
+  .topbar {
     flex-direction: column;
-    gap: 8px;
+    align-items: flex-start;
+    gap: 10px;
   }
 
-  .habit-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
+  .brand {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  .habit-card-name {
-    font-weight: 600;
-    font-size: 16px;
-  }
-
-  .habit-card-days {
-    display: flex;
-    gap: 6px;
+  .nav-tabs {
     flex-wrap: wrap;
+    gap: 4px;
   }
 
-  .cell-btn {
-    width: 36px;
-    height: 36px;
-    font-size: 16px;
-    border-radius: 10px;
+  .search input {
+    width: 140px; /* smaller input */
   }
 
-  .habit-card-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 6px;
+  .table-wrap {
+    overflow-x: auto;
   }
 
-  .habit-card-footer .btn {
+  table {
+    min-width: 600px; /* allow horizontal scroll */
+  }
+
+  th, td {
+    padding: 6px;
     font-size: 12px;
-    padding: 6px 10px;
   }
 
-  .habit-streak {
-    font-weight: 700;
-    font-size: 14px;
+  .habit-name {
+    max-width: 120px;
+  }
+
+  .btn {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .progressbar {
+    height: 10px;
+  }
+
+  .progressbar.thin {
+    height: 6px;
+  }
+
+  .xp-card {
+    padding: 10px;
+  }
+
+  .badge {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+
+  canvas {
+    height: auto !important;
   }
 }
