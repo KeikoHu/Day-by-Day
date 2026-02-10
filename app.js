@@ -8,12 +8,12 @@ import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/fireb
 
 // ---------- Firebase Config ----------
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyDyxjT_PYLASXQ6VJ9o1Y4zbk2uTv_1ayE",
+  authDomain: "daybydayapp-62d9c.firebaseapp.com",
+  projectId: "daybydayapp-62d9c",
+  storageBucket: "daybydayapp-62d9c.firebasestorage.app",
+  messagingSenderId: "958797076735",
+  appId: "1:958797076735:web:48a61f7a355195de5514ca"
 };
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
