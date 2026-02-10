@@ -92,6 +92,7 @@ canvas{width:100%;border-radius:18px;margin-top:10px;background:rgba(255,255,255
 .footer{max-width:1200px;margin:0 auto;padding:0 18px 22px;font-size:12px;opacity:.85}
 /* ----------------- Mobile Responsive ----------------- */
 @media (max-width: 768px) {
+  /* Container & Layout */
   .container {
     padding: 12px;
   }
@@ -112,16 +113,18 @@ canvas{width:100%;border-radius:18px;margin-top:10px;background:rgba(255,255,255
     gap: 4px;
   }
 
+  /* Search Input */
   .search input {
-    width: 140px; /* smaller input */
+    width: 140px;
   }
 
+  /* Table (desktop fallback, small screens) */
   .table-wrap {
     overflow-x: auto;
   }
 
   table {
-    min-width: 600px; /* allow horizontal scroll */
+    min-width: 600px;
   }
 
   th, td {
@@ -133,11 +136,19 @@ canvas{width:100%;border-radius:18px;margin-top:10px;background:rgba(255,255,255
     max-width: 120px;
   }
 
+  /* Buttons */
   .btn {
     padding: 6px 10px;
     font-size: 12px;
   }
 
+  .cell-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+
+  /* Progress Bars */
   .progressbar {
     height: 10px;
   }
@@ -146,6 +157,7 @@ canvas{width:100%;border-radius:18px;margin-top:10px;background:rgba(255,255,255
     height: 6px;
   }
 
+  /* XP Card */
   .xp-card {
     padding: 10px;
   }
@@ -155,7 +167,57 @@ canvas{width:100%;border-radius:18px;margin-top:10px;background:rgba(255,255,255
     font-size: 12px;
   }
 
+  /* Charts */
   canvas {
     height: auto !important;
   }
+
+  /* Habit Cards (mobile card layout) */
+  .habit-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .habit-card {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .habit-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .habit-card-name {
+    font-weight: 600;
+    font-size: 16px;
+  }
+
+  .habit-card-days {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .habit-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .habit-streak {
+    font-weight: 700;
+    font-size: 14px;
+  }
 }
+
