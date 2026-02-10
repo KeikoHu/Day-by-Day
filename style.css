@@ -93,16 +93,66 @@ canvas{width:100%;border-radius:18px;margin-top:10px;background:rgba(255,255,255
 /* ----------------- Mobile Responsive ----------------- */
 
 /* -------- Mobile Table Shrink -------- */
+/* ----------------- Mobile Styles ----------------- */
 @media (max-width: 768px) {
+
+  /* Container */
+  .container {
+    padding: 12px;
+  }
+
+  /* Topbar layout */
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  /* Brand stacking */
+  .brand {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* Nav tabs wrapping */
+  .nav-tabs {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  /* Top actions (search + add) stack vertically to prevent zoom) */
+  .top-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .search {
+    width: 100%;
+  }
+
+  .search input {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  #addHabitBtn {
+    width: 100%;
+    font-size: 14px;
+    padding: 8px 0;
+  }
+
+  /* Table adjustments */
   .table-wrap {
-    overflow-x: auto;               /* allow horizontal scroll if needed */
+    overflow-x: auto;
     -webkit-overflow-scrolling: touch; /* smooth scroll on mobile */
   }
 
   table {
-    width: 100%;                     /* fit container width */
-    table-layout: fixed;             /* columns shrink evenly */
-    min-width: 0;                    /* prevent overflow */
+    width: 100%;
+    table-layout: fixed;
+    min-width: 0;
   }
 
   th, td {
@@ -114,12 +164,86 @@ canvas{width:100%;border-radius:18px;margin-top:10px;background:rgba(255,255,255
   }
 
   .habit-name {
-    max-width: 120px;                /* make habit column narrower */
+    max-width: 120px;
   }
 
-  .cell-btn {
-    width: 28px;
-    height: 28px;
-    font-size: 14px;                 /* still tap-friendly */
+  /* Buttons */
+  .btn, .cell-btn {
+    min-width: 36px;
+    min-height: 36px;
+    font-size: 14px;
   }
+
+  /* Progress bars */
+  .progressbar {
+    height: 10px;
+  }
+
+  .progressbar.thin {
+    height: 6px;
+  }
+
+  /* XP card */
+  .xp-card {
+    padding: 10px;
+  }
+
+  .badge {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+
+  /* Charts */
+  canvas {
+    height: auto !important;
+  }
+
+  /* Mobile Habit Cards (optional fallback for really small screens) */
+  .habit-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .habit-card {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .habit-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .habit-card-name {
+    font-weight: 600;
+    font-size: 16px;
+  }
+
+  .habit-card-days {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .habit-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .habit-streak {
+    font-weight: 700;
+    font-size: 14px;
+  }
+
 }
