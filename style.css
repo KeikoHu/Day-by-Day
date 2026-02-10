@@ -96,35 +96,36 @@ canvas{width:100%;border-radius:18px;margin-top:10px;background:rgba(255,255,255
 /* ----------------- Mobile Styles ----------------- */
 @media (max-width: 768px) {
 
-  /* Container */
+  /* ---------- Container ---------- */
   .container {
     padding: 12px;
   }
 
-  /* Topbar layout */
+  /* ---------- Topbar ---------- */
   .topbar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
+    flex-direction: column;       /* stack everything vertically */
+    align-items: flex-start;      /* left-align all */
+    gap: 12px;
   }
 
-  /* Brand stacking */
+  /* Brand stacked */
   .brand {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  /* Nav tabs wrapping */
+  /* Nav tabs wrap */
   .nav-tabs {
     flex-wrap: wrap;
-    gap: 4px;
+    gap: 6px;
   }
 
-  /* Top actions (search + add) stack vertically to prevent zoom) */
+  /* Top actions (search + add) stacked vertically */
   .top-actions {
-    flex-direction: column;
+    display: flex;
+    flex-direction: column;       /* stack input + button */
     align-items: flex-start;
-    gap: 8px;
+    gap: 6px;
     width: 100%;
   }
 
@@ -143,15 +144,16 @@ canvas{width:100%;border-radius:18px;margin-top:10px;background:rgba(255,255,255
     padding: 8px 0;
   }
 
-  /* Table adjustments */
+  /* ---------- Table ---------- */
   .table-wrap {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch; /* smooth scroll on mobile */
+    overflow-x: auto;                  /* scroll if needed */
+    -webkit-overflow-scrolling: touch; /* smooth scroll */
+    width: 100%;
   }
 
   table {
-    width: 100%;
-    table-layout: fixed;
+    width: 100%;                        /* fit container */
+    table-layout: fixed;                 /* evenly shrink columns */
     min-width: 0;
   }
 
@@ -167,14 +169,14 @@ canvas{width:100%;border-radius:18px;margin-top:10px;background:rgba(255,255,255
     max-width: 120px;
   }
 
-  /* Buttons */
+  /* ---------- Buttons ---------- */
   .btn, .cell-btn {
     min-width: 36px;
     min-height: 36px;
     font-size: 14px;
   }
 
-  /* Progress bars */
+  /* ---------- Progress Bars ---------- */
   .progressbar {
     height: 10px;
   }
@@ -183,7 +185,7 @@ canvas{width:100%;border-radius:18px;margin-top:10px;background:rgba(255,255,255
     height: 6px;
   }
 
-  /* XP card */
+  /* ---------- XP Card ---------- */
   .xp-card {
     padding: 10px;
   }
@@ -193,12 +195,12 @@ canvas{width:100%;border-radius:18px;margin-top:10px;background:rgba(255,255,255
     font-size: 12px;
   }
 
-  /* Charts */
+  /* ---------- Charts ---------- */
   canvas {
     height: auto !important;
   }
 
-  /* Mobile Habit Cards (optional fallback for really small screens) */
+  /* ---------- Habit Cards (optional small screen) ---------- */
   .habit-cards {
     display: flex;
     flex-direction: column;
