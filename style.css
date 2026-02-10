@@ -91,133 +91,35 @@ canvas{width:100%;border-radius:18px;margin-top:10px;background:rgba(255,255,255
 
 .footer{max-width:1200px;margin:0 auto;padding:0 18px 22px;font-size:12px;opacity:.85}
 /* ----------------- Mobile Responsive ----------------- */
+
+/* -------- Mobile Table Shrink -------- */
 @media (max-width: 768px) {
-  /* Container & Layout */
-  .container {
-    padding: 12px;
-  }
-
-  .topbar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .brand {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .nav-tabs {
-    flex-wrap: wrap;
-    gap: 4px;
-  }
-
-  /* Search Input */
-  .search input {
-    width: 140px;
-  }
-
-  /* Table (desktop fallback, small screens) */
   .table-wrap {
-    overflow-x: auto;
+    overflow-x: auto;               /* allow horizontal scroll if needed */
+    -webkit-overflow-scrolling: touch; /* smooth scroll on mobile */
   }
 
   table {
-    min-width: 600px;
+    width: 100%;                     /* fit container width */
+    table-layout: fixed;             /* columns shrink evenly */
+    min-width: 0;                    /* prevent overflow */
   }
 
   th, td {
     padding: 6px;
     font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .habit-name {
-    max-width: 120px;
-  }
-
-  /* Buttons */
-  .btn {
-    padding: 6px 10px;
-    font-size: 12px;
+    max-width: 120px;                /* make habit column narrower */
   }
 
   .cell-btn {
-    width: 36px;
-    height: 36px;
-    font-size: 16px;
-  }
-
-  /* Progress Bars */
-  .progressbar {
-    height: 10px;
-  }
-
-  .progressbar.thin {
-    height: 6px;
-  }
-
-  /* XP Card */
-  .xp-card {
-    padding: 10px;
-  }
-
-  .badge {
-    padding: 4px 8px;
-    font-size: 12px;
-  }
-
-  /* Charts */
-  canvas {
-    height: auto !important;
-  }
-
-  /* Habit Cards (mobile card layout) */
-  .habit-cards {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .habit-card {
-    background: var(--card2);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .habit-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .habit-card-name {
-    font-weight: 600;
-    font-size: 16px;
-  }
-
-  .habit-card-days {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-
-  .habit-card-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-
-  .habit-streak {
-    font-weight: 700;
-    font-size: 14px;
+    width: 28px;
+    height: 28px;
+    font-size: 14px;                 /* still tap-friendly */
   }
 }
-
