@@ -20,6 +20,17 @@ const auth = getAuth();
 const provider = new GoogleAuthProvider();
 const db = getFirestore(app);
 
+import { setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
+
+setPersistence(auth, browserLocalPersistence)
+  .then(() => {
+    console.log("Firebase Auth persistence set to LOCAL ✅");
+  })
+  .catch((err) => {
+    console.error("Persistence error:", err);
+  });
+
+
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
 
 onAuthStateChanged(auth, async (user) => {
